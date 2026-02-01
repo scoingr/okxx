@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=7680,height=4320,initial-scale=1.0">
+<title>OKX ROOT COMMAND WALL — SHOW MODE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+ width:100%;height:100%;
+ background:#00030a;
+ color:#f8fafc;
+ font-family:'Orbitron',sans-serif;
+ overflow:hidden;
+}
+
+/* ==== COLOR ==== */
+:root{
+ --cyan:#00ffff;
+ --green:#00ff9c;
+ --amber:#ffd000;
+ --red:#ff003c;
+ --panel:#020726;
+}
+
+/* ==== GRID ==== */
+body::before{
+ content:"";
+ position:fixed;inset:0;
+ background:
+  linear-gradient(rgba(0,255,255,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(0,255,255,.05) 1px,transparent 1px);
+ background-size:72px 72px;
+ pointer-events:none;
+}
+
+/* ==== HEADER ==== */
+.header{
+ height:9vh;
+ display:grid;
+ grid-template-columns:18vw 1fr 18vw;
+ align-items:center;
+ padding:0 3vw;
+ border-bottom:5px solid var(--cyan);
+ box-shadow:0 0 60px var(--cyan);
+}
+.logo{
+ font-size:5.2vw;
+ font-weight:900;
+ letter-spacing:1vw;
+ text-shadow:0 0 40px var(--cyan);
+}
+.center{
+ text-align:center;
+ font-size:1.6vw;
+ letter-spacing:.6vw;
+ opacity:.9;
+}
+.root{
+ font-size:1.8vw;
+}
+.root b{color:var(--cyan)}
+
+/* ==== POWER BAR (LOCKED) ==== */
+.power{
+ height:7vh;
+ display:flex;
+ gap:1.4vw;
+ align-items:center;
+ padding:0 3vw;
+ border-bottom:5px solid var(--cyan);
+}
+.power button{
+ font-size:1.3vw;
+ padding:1vh 2.4vw;
+ background:#020726;
+ color:#fff;
+ border:3px solid var(--cyan);
+ box-shadow:0 0 30px var(--cyan);
+ opacity:.85;
+ pointer-events:none;
+}
+.power .danger{
+ border-color:var(--red);
+ box-shadow:0 0 40px var(--red);
+}
+
+/* ==== MAIN GRID ==== */
+.main{
+ height:calc(100% - 16vh);
+ display:grid;
+ grid-template-columns:24vw 1fr 28vw;
+ gap:1.2vw;
+ padding:1.2vw;
+}
+
+/* ==== PANEL ==== */
+.panel{
+ background:var(--panel);
+ border:4px solid var(--cyan);
+ padding:1.2vw;
+ box-shadow:
+  0 0 40px rgba(0,255,255,.6),
+  inset 0 0 30px rgba(0,255,255,.25);
+}
+
+/* ==== IP LIST ==== */
+.ip-list{
+ font-family:'Share Tech Mono';
+ font-size:1vw;
+}
+.ip-row{
+ display:grid;
+ grid-template-columns:18ch 4ch 18ch 10ch;
+ gap:1vw;
+ padding:.45vw 0;
+ border-bottom:1px solid rgba(0,255,255,.4);
+}
+.ip-row.crit{
+ color:var(--red);
+ text-shadow:0 0 25px var(--red);
+ animation:blink .7s infinite;
+}
+@keyframes blink{50%{opacity:.3}}
+
+/* ==== CENTER ALERT ==== */
+.alert{
+ height:100%;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ border:8px solid var(--red);
+ box-shadow:0 0 160px var(--red);
+ animation:pulse 1s infinite alternate;
+}
+@keyframes pulse{
+ from{box-shadow:0 0 120px var(--red)}
+ to{box-shadow:0 0 260px var(--red)}
+}
+.big-ip{
+ font-family:'Share Tech Mono';
+ font-size:6.2vw;
+ width:18ch;
+ text-align:center;
+}
+.big-meta{
+ font-size:2.4vw;
+ margin-top:1vw;
+}
+.big-level{
+ font-size:2.2vw;
+ letter-spacing:.6vw;
+ margin-top:1.2vw;
+}
+
+/* ==== METRICS ==== */
+.metrics{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:1vw;
+}
+.metric{
+ border:3px solid var(--cyan);
+ padding:1vw;
+ font-family:'Share Tech Mono';
+ font-size:1.2vw;
+ box-shadow:0 0 30px var(--cyan);
+}
+.metric b{
+ display:block;
+ color:var(--cyan);
+ font-size:1.3vw;
+}
+
+/* ==== WORLD CLOCK ==== */
+.clock{
+ margin-top:1vw;
+ font-family:'Share Tech Mono';
+ font-size:1.2vw;
+}
+
+/* ==== COMMAND CHAT (AUTO) ==== */
+.command{
+ position:fixed;
+ left:1.5vw;
+ bottom:1.5vw;
+ width:24vw;
+ height:24vh;
+ background:#00030a;
+ border:5px solid var(--red);
+ box-shadow:0 0 50px var(--red);
+ display:flex;
+ flex-direction:column;
+}
+.command h3{
+ font-size:1.1vw;
+ padding:.6vw;
+ border-bottom:2px solid var(--red);
+}
+.log{
+ flex:1;
+ padding:.6vw;
+ font-family:'Share Tech Mono';
+ font-size:.95vw;
+ overflow:hidden;
+}
+
+/* ==== RADAR ==== */
+.radar{
+ position:fixed;
+ right:2vw;
+ bottom:2vw;
+ width:14vw;
+ height:14vw;
+ border:4px solid var(--cyan);
+ box-shadow:0 0 60px var(--cyan);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+ <div class="logo">OKX</div>
+ <div class="center">GLOBAL ROOT SECURITY & EXCHANGE COMMAND</div>
+ <div class="root">SHOW MODE : <b>JOKER</b></div>
+</div>
+
+<div class="power">
+ <button>OVERRIDE AI</button>
+ <button>FORCE AUDIT</button>
+ <button>FREEZE MARKET</button>
+ <button class="danger">GLOBAL LOCKDOWN</button>
+ <button class="danger">HALT EXCHANGE</button>
+</div>
+
+<div class="main">
+
+<div class="panel">
+ <b>⚠ LIVE ATTACK FEED</b>
+ <div class="ip-list" id="ipList"></div>
+</div>
+
+<div class="panel">
+ <div class="alert">
+  <div class="big-ip" id="mainIP">---</div>
+  <div class="big-meta" id="mainMeta">---</div>
+  <div class="big-level" id="mainLevel">---</div>
+ </div>
+</div>
+
+<div class="panel">
+ <div class="metrics">
+  <div class="metric"><b>ACTIVE ATTACKS</b><span id="m1"></span></div>
+  <div class="metric"><b>BLOCKED IP</b><span id="m2"></span></div>
+  <div class="metric"><b>DDOS PPS</b><span id="m3"></span></div>
+  <div class="metric"><b>LATENCY</b><span id="m4"></span></div>
+  <div class="metric"><b>PACKET LOSS</b><span id="m5"></span></div>
+  <div class="metric"><b>NODE HEALTH</b><span id="m6"></span></div>
+ </div>
+ <div class="clock" id="clock"></div>
+</div>
+
+</div>
+
+<div class="command">
+ <h3>🚨 ROOT COMMAND LOG</h3>
+ <div class="log" id="log"></div>
+</div>
+
+<div class="radar"><canvas id="radar"></canvas></div>
+
+<script>
+/* ==== DATA ==== */
+const countries=["US","CN","RU","VN","JP","DE","FR","KR"];
+const attacks=["SYN FLOOD","UDP FLOOD","API ABUSE","BRUTE AUTH","BOTNET"];
+const cmds=[
+ "INITIATE GLOBAL SCAN",
+ "ISOLATE MALICIOUS NODES",
+ "DEPLOY MITIGATION LAYER",
+ "FORCE TRAFFIC REROUTE",
+ "CONFIRM MARKET INTEGRITY"
+];
+function ip(){return`${Math.random()*255|0}.${Math.random()*255|0}.${Math.random()*255|0}.${Math.random()*255|0}`}
+
+/* ==== SHOW LOOP ==== */
+setInterval(()=>{
+ const lvl=Math.random();
+ const i=ip();
+ const c=countries[Math.random()*countries.length|0];
+ const a=attacks[Math.random()*attacks.length|0];
+ const sev=lvl>.82?"CRITICAL":lvl>.6?"HIGH":"MEDIUM";
+
+ mainIP.textContent=i;
+ mainMeta.textContent=`${c} | ${a}`;
+ mainLevel.textContent=sev;
+
+ const row=document.createElement("div");
+ row.className="ip-row "+(sev==="CRITICAL"?"crit":"");
+ row.innerHTML=`<span>${i}</span><span>${c}</span><span>${a}</span><span>${sev}</span>`;
+ ipList.prepend(row);
+ if(ipList.children.length>22)ipList.lastChild.remove();
+
+ m1.textContent=(20+lvl*80).toFixed(0);
+ m2.textContent=(500+lvl*1500).toFixed(0);
+ m3.textContent=(30000+lvl*180000).toFixed(0);
+ m4.textContent=(30+lvl*120).toFixed(1)+" ms";
+ m5.textContent=(lvl*3).toFixed(2)+" %";
+ m6.textContent=(96-lvl*8).toFixed(1)+" %";
+
+ log.innerHTML+=`[SYSTEM] ${cmds[Math.random()*cmds.length|0]}<br>`;
+ if(log.innerHTML.length>1200)log.innerHTML=log.innerHTML.slice(300);
+
+},900);
+
+/* ==== CLOCK ==== */
+setInterval(()=>{
+ const d=new Date();
+ clock.innerHTML=
+ `US (NY): ${d.toLocaleTimeString("en-US",{timeZone:"America/New_York"})}<br>
+  EU (DE): ${d.toLocaleTimeString("de-DE",{timeZone:"Europe/Berlin"})}<br>
+  ASIA (JP): ${d.toLocaleTimeString("ja-JP",{timeZone:"Asia/Tokyo"})}`;
+},1000);
+
+/* ==== RADAR ==== */
+const cv=document.getElementById("radar"),ctx=cv.getContext("2d");
+function resize(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight}
+resize();window.onresize=resize;
+let ang=0;
+(function draw(){
+ ctx.clearRect(0,0,cv.width,cv.height);
+ const cx=cv.width/2,cy=cv.height/2,R=Math.min(cx,cy)*.9;
+ ctx.strokeStyle="rgba(0,255,255,.6)";
+ for(let i=1;i<=5;i++){ctx.beginPath();ctx.arc(cx,cy,R*i/5,0,Math.PI*2);ctx.stroke()}
+ ctx.beginPath();
+ ctx.moveTo(cx,cy);
+ ctx.lineTo(cx+Math.cos(ang)*R,cy+Math.sin(ang)*R);
+ ctx.stroke();
+ ang+=.025;
+ requestAnimationFrame(draw);
+})();
+</script>
+
+</body>
+</html>
