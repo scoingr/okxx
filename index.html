@@ -2,22 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1920,height=1080,initial-scale=1.0">
 <title>OKX ABSOLUTE COMMAND WALL</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 html,body{
- width:100vw;height:100vh;
- background:#01030a;
- color:#eaffff;
- font-family:'Orbitron',sans-serif;
+ margin:0;
+ width:100%;
+ height:100%;
+ background:#000;
  overflow:hidden;
 }
 
-/* ===== ROOT COLORS ===== */
+/* ===== SCALE WRAPPER ===== */
+#scale-root{
+ position:absolute;
+ top:50%;
+ left:50%;
+ width:1920px;
+ height:1080px;
+ transform:translate(-50%,-50%);
+ transform-origin:center;
+ background:#01030a;
+ font-family:'Orbitron',sans-serif;
+ color:#eaffff;
+ overflow:hidden;
+}
+
+/* ===== COLORS ===== */
 :root{
  --cyan:#00f5ff;
  --red:#ff2d55;
@@ -26,146 +40,138 @@ html,body{
  --panel:#050a22;
 }
 
-/* ===== GRID BACKGROUND ===== */
-body::before{
+/* GRID */
+#scale-root::before{
  content:"";
- position:fixed;inset:0;
+ position:absolute;
+ inset:0;
  background:
-  linear-gradient(rgba(0,245,255,.05) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(0,245,255,.05) 1px,transparent 1px);
- background-size:100px 100px;
- animation:gridMove 90s linear infinite;
+  linear-gradient(rgba(0,245,255,.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(0,245,255,.04) 1px,transparent 1px);
+ background-size:96px 96px;
+ animation:grid 80s linear infinite;
  pointer-events:none;
 }
-@keyframes gridMove{
- to{background-position:1000px 1000px}
-}
-
-/* ===== LED PANEL ===== */
-.panel{
- position:relative;
- background:var(--panel);
- padding:1.2vh;
-}
-.panel::before{
- content:"";
- position:absolute;inset:0;
- border:2px solid transparent;
- background:
-  linear-gradient(90deg,transparent,var(--cyan),transparent) border-box;
- mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
- mask-composite:exclude;
- animation:led 4s linear infinite;
-}
-@keyframes led{
- to{background-position:200%}
+@keyframes grid{
+ to{background-position:960px 960px}
 }
 
 /* ===== HEADER ===== */
 .header{
- height:10vh;
+ height:96px;
  display:grid;
- grid-template-columns:25% 50% 25%;
+ grid-template-columns:320px 1fr 420px;
  align-items:center;
- padding:0 3vw;
- border-bottom:2px solid var(--cyan);
+ padding:0 32px;
+ border-bottom:3px solid var(--cyan);
 }
 .logo{
- font-size:5vh;
- letter-spacing:1vh;
+ font-size:64px;
+ letter-spacing:12px;
  color:var(--cyan);
- animation:logoGlow 3s infinite;
+ text-shadow:0 0 60px var(--cyan);
 }
-@keyframes logoGlow{
- 50%{text-shadow:0 0 80px var(--cyan)}
+.center{
+ text-align:center;
+ letter-spacing:4px;
 }
-.center{text-align:center;letter-spacing:.6vh}
 .user{
  text-align:right;
- font-size:2vh;
+ font-size:18px;
 }
 
-/* ===== POWER BAR ===== */
+/* ===== POWER ===== */
 .power{
- height:8vh;
+ height:72px;
  display:grid;
  grid-template-columns:repeat(6,1fr);
- gap:1vw;
- padding:1vh 3vw;
- border-bottom:2px solid var(--cyan);
+ gap:16px;
+ padding:12px 32px;
+ border-bottom:3px solid var(--cyan);
 }
 .power button{
  background:#020514;
  color:#fff;
  border:2px solid var(--cyan);
- font-size:1.6vh;
- padding:1vh;
+ font-size:16px;
+ padding:10px;
  box-shadow:0 0 20px var(--cyan);
 }
 .power .danger{
  border-color:var(--red);
- box-shadow:0 0 50px var(--red);
- animation:pulse 1s infinite;
+ box-shadow:0 0 60px var(--red);
 }
-@keyframes pulse{50%{box-shadow:0 0 120px var(--red)}}
 
-/* ===== MAIN GRID ===== */
+/* ===== MAIN ===== */
 .main{
- height:82vh;
+ height:calc(1080px - 168px);
  display:grid;
- grid-template-columns:28% 44% 28%;
- grid-template-rows:50% 50%;
- gap:1vh;
- padding:1vh;
+ grid-template-columns:520px 880px 520px;
+ grid-template-rows:1fr 1fr;
+ gap:16px;
+ padding:16px;
 }
 
-/* ===== RADAR ===== */
+/* PANEL */
+.panel{
+ position:relative;
+ background:var(--panel);
+ padding:12px;
+ border:2px solid var(--cyan);
+ box-shadow:0 0 40px rgba(0,245,255,.35);
+}
+
+/* METRIC */
+.metric{
+ font-family:'Share Tech Mono';
+ font-size:18px;
+ margin:6px 0;
+}
+
+/* RADAR */
 .radarWrap{
  display:grid;
- grid-template-columns:50% 50%;
+ grid-template-columns:440px 1fr;
+ gap:12px;
  height:100%;
 }
-#radar{width:100%;height:100%}
+#radar{
+ width:440px;
+ height:440px;
+}
 .ipList{
  font-family:'Share Tech Mono';
- font-size:1.4vh;
+ font-size:15px;
 }
 .ipRow{
  display:grid;
- grid-template-columns:55% 20% 25%;
+ grid-template-columns:200px 80px 120px;
  border-bottom:1px solid rgba(0,245,255,.3);
- padding:.3vh 0;
+ padding:4px 0;
 }
-.ipRow.crit{color:var(--red);animation:blink .6s infinite}
-@keyframes blink{50%{opacity:.3}}
+.ipRow.crit{color:var(--red)}
 
-/* ===== ALERT ===== */
+/* ALERT */
 .alert{
  display:flex;
  flex-direction:column;
- justify-content:center;
  align-items:center;
- border:3px solid var(--red);
+ justify-content:center;
+ border:4px solid var(--red);
  box-shadow:0 0 120px var(--red);
- animation:alertPulse 1.2s infinite;
 }
-@keyframes alertPulse{50%{transform:scale(1.02)}}
-.bigIP{font-family:'Share Tech Mono';font-size:6vh}
-
-/* ===== METRIC ===== */
-.metric{
+.bigIP{
  font-family:'Share Tech Mono';
- font-size:1.6vh;
- margin:.6vh 0;
+ font-size:72px;
 }
 
-/* ===== COMMAND ===== */
+/* COMMAND */
 .command{
- position:fixed;
- right:2vw;
- bottom:2vh;
- width:22vw;
- height:28vh;
+ position:absolute;
+ right:24px;
+ bottom:24px;
+ width:420px;
+ height:300px;
  background:#000;
  border:3px solid var(--red);
  box-shadow:0 0 80px var(--red);
@@ -173,95 +179,108 @@ body::before{
  flex-direction:column;
 }
 .command h3{
- padding:.6vh;
- font-size:1.6vh;
+ margin:0;
+ padding:8px;
+ font-size:18px;
  border-bottom:2px solid var(--red);
 }
 .log{
  flex:1;
- padding:.6vh;
+ padding:8px;
  font-family:'Share Tech Mono';
- font-size:1.3vh;
- overflow:auto;
+ font-size:14px;
+ overflow:hidden;
 }
 .command input{
- background:#000;
  border:none;
+ background:#000;
  color:#fff;
- padding:.6vh;
- outline:none;
+ padding:8px;
  font-family:'Share Tech Mono';
- font-size:1.3vh;
+ outline:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
- <div class="logo">OKX</div>
- <div class="center">ABSOLUTE GLOBAL COMMAND WALL</div>
- <div class="user">
-  ROOT USER: <b style="color:#00f5ff">JOKER</b><br>
-  CLEARANCE: ABSOLUTE
- </div>
-</div>
+<div id="scale-root">
 
-<div class="power">
- <button>OVERRIDE AI</button>
- <button>FREEZE MARKET</button>
- <button>FORCE AUDIT</button>
- <button class="danger">GLOBAL LOCKDOWN</button>
- <button class="danger">HALT TRADING</button>
- <button class="danger">BLACKOUT MODE</button>
-</div>
-
-<div class="main">
-
- <div class="panel">
-  <div class="metric">CPU LOAD: <span id="cpu"></span>%</div>
-  <div class="metric">MEMORY: <span id="mem"></span>%</div>
-  <div class="metric">NETWORK: <span id="net"></span>%</div>
-  <div class="metric">API ERROR: <span id="api"></span>%</div>
+ <div class="header">
+  <div class="logo">OKX</div>
+  <div class="center">ABSOLUTE COMMAND WALL</div>
+  <div class="user">
+   ROOT USER: <b style="color:#00f5ff">JOKER</b><br>
+   ACCESS LEVEL: ABSOLUTE
+  </div>
  </div>
 
- <div class="panel radarWrap">
-  <canvas id="radar"></canvas>
-  <div class="ipList" id="ipList"></div>
+ <div class="power">
+  <button>OVERRIDE AI</button>
+  <button>FREEZE MARKET</button>
+  <button>FORCE AUDIT</button>
+  <button class="danger">GLOBAL LOCKDOWN</button>
+  <button class="danger">HALT TRADING</button>
+  <button class="danger">BLACKOUT</button>
  </div>
 
- <div class="panel alert">
-  <div class="bigIP" id="bigIP">---</div>
-  <div id="bigMeta"></div>
-  <div id="bigLvl"></div>
+ <div class="main">
+
+  <div class="panel">
+   <div class="metric">CPU LOAD: <span id="cpu"></span>%</div>
+   <div class="metric">MEMORY: <span id="mem"></span>%</div>
+   <div class="metric">NETWORK: <span id="net"></span>%</div>
+   <div class="metric">API ERROR: <span id="api"></span>%</div>
+  </div>
+
+  <div class="panel radarWrap">
+   <canvas id="radar"></canvas>
+   <div class="ipList" id="ipList"></div>
+  </div>
+
+  <div class="panel alert">
+   <div class="bigIP" id="bigIP">---</div>
+   <div id="bigMeta"></div>
+   <div id="bigLvl"></div>
+  </div>
+
+  <div class="panel">
+   <div class="metric">MATCH ENGINE: ONLINE</div>
+   <div class="metric">LIQUIDITY: STABLE</div>
+   <div class="metric">RISK CORE: ACTIVE</div>
+  </div>
+
+  <div class="panel">
+   <div class="metric">ATTACKS / MIN: <span id="apm"></span></div>
+   <div class="metric">CRITICAL RATIO: <span id="cr"></span>%</div>
+   <div class="metric">COUNTRIES ACTIVE: <span id="cc"></span></div>
+  </div>
+
+  <div class="panel">
+   <div class="metric">DISPLAY: ANDROID TV SAFE</div>
+   <div class="metric">ASPECT: 16:9 LOCKED</div>
+  </div>
+
  </div>
 
- <div class="panel">
-  <div class="metric">MATCH ENGINE: ONLINE</div>
-  <div class="metric">LIQUIDITY: STABLE</div>
-  <div class="metric">RISK CORE: ACTIVE</div>
+ <div class="command">
+  <h3>SUPREME ROOT COMMAND</h3>
+  <div class="log" id="log"></div>
+  <input id="cmd" placeholder="ENTER ABSOLUTE COMMAND">
  </div>
 
- <div class="panel">
-  <div class="metric">ATTACKS / MIN: <span id="apm"></span></div>
-  <div class="metric">CRITICAL RATIO: <span id="cr"></span>%</div>
-  <div class="metric">COUNTRIES ACTIVE: <span id="cc"></span></div>
- </div>
-
- <div class="panel">
-  <div class="metric">DISPLAY MODE: ANDROID TV</div>
-  <div class="metric">RESOLUTION: 16:9 LOCKED</div>
- </div>
-
-</div>
-
-<div class="command">
- <h3>SUPREME ROOT COMMAND</h3>
- <div class="log" id="log"></div>
- <input id="cmd" placeholder="ENTER ABSOLUTE COMMAND">
 </div>
 
 <script>
+/* SCALE TO SCREEN */
+function scale(){
+ const s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+ document.getElementById("scale-root").style.transform=
+  `translate(-50%,-50%) scale(${s})`;
+}
+scale();
+window.onresize=scale;
+
 /* METRICS */
 setInterval(()=>{
  cpu.textContent=(Math.random()*60+20).toFixed(1);
@@ -299,19 +318,24 @@ setInterval(()=>{
 
 /* RADAR */
 const cv=radar,ctx=cv.getContext("2d");
-function resize(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight}
-resize();window.onresize=resize;
+cv.width=cv.height=440;
 let ang=0;
 (function draw(){
- ctx.clearRect(0,0,cv.width,cv.height);
- const cx=cv.width/2,cy=cv.height/2,R=Math.min(cx,cy)*.85;
+ ctx.clearRect(0,0,440,440);
+ const cx=220,cy=220,R=190;
  ctx.strokeStyle="rgba(0,245,255,.5)";
- for(let i=1;i<=4;i++){ctx.beginPath();ctx.arc(cx,cy,R*i/4,0,Math.PI*2);ctx.stroke();}
+ for(let i=1;i<=4;i++){
+  ctx.beginPath();
+  ctx.arc(cx,cy,R*i/4,0,Math.PI*2);
+  ctx.stroke();
+ }
  threats.forEach(t=>{
   const x=cx+Math.cos(t.a)*R*t.r;
   const y=cy+Math.sin(t.a)*R*t.r;
   ctx.fillStyle=t.lvl>.8?"#ff2d55":t.lvl>.6?"#ffd000":"#00ff9c";
-  ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();
+  ctx.arc(x,y,6,0,Math.PI*2);
+  ctx.fill();
  });
  ctx.beginPath();
  ctx.moveTo(cx,cy);
@@ -320,14 +344,6 @@ let ang=0;
  ang+=.04;
  requestAnimationFrame(draw);
 })();
-
-/* COMMAND */
-cmd.addEventListener("keydown",e=>{
- if(e.key==="Enter"&&cmd.value){
-  log.innerHTML+=`[ROOT] ${cmd.value}<br>`;
-  cmd.value="";
- }
-});
 </script>
 
 </body>
