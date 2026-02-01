@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=1920,height=1080,initial-scale=1.0">
 <title>OKX ABSOLUTE COMMAND WALL</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -10,179 +10,188 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{
- width:100%;height:100%;
- background:#02040f;
- color:#e8ffff;
+ width:100vw;height:100vh;
+ background:#01030a;
+ color:#eaffff;
  font-family:'Orbitron',sans-serif;
  overflow:hidden;
 }
+
+/* ===== ROOT COLORS ===== */
 :root{
  --cyan:#00f5ff;
  --red:#ff2d55;
  --amber:#ffd000;
  --green:#00ff9c;
- --panel:#060b26;
- --border:#00d9ff;
+ --panel:#050a22;
 }
 
-/* GRID */
+/* ===== GRID BACKGROUND ===== */
 body::before{
  content:"";
  position:fixed;inset:0;
  background:
   linear-gradient(rgba(0,245,255,.05) 1px,transparent 1px),
   linear-gradient(90deg,rgba(0,245,255,.05) 1px,transparent 1px);
- background-size:80px 80px;
- animation:grid 80s linear infinite;
+ background-size:100px 100px;
+ animation:gridMove 90s linear infinite;
  pointer-events:none;
 }
-@keyframes grid{to{background-position:800px 800px}}
+@keyframes gridMove{
+ to{background-position:1000px 1000px}
+}
 
-/* HEADER */
+/* ===== LED PANEL ===== */
+.panel{
+ position:relative;
+ background:var(--panel);
+ padding:1.2vh;
+}
+.panel::before{
+ content:"";
+ position:absolute;inset:0;
+ border:2px solid transparent;
+ background:
+  linear-gradient(90deg,transparent,var(--cyan),transparent) border-box;
+ mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+ mask-composite:exclude;
+ animation:led 4s linear infinite;
+}
+@keyframes led{
+ to{background-position:200%}
+}
+
+/* ===== HEADER ===== */
 .header{
- height:90px;
+ height:10vh;
  display:grid;
- grid-template-columns:320px 1fr 480px;
+ grid-template-columns:25% 50% 25%;
  align-items:center;
- padding:0 36px;
- border-bottom:3px solid var(--border);
+ padding:0 3vw;
+ border-bottom:2px solid var(--cyan);
 }
 .logo{
- font-size:68px;
- letter-spacing:10px;
+ font-size:5vh;
+ letter-spacing:1vh;
  color:var(--cyan);
- animation:logo 3s infinite;
+ animation:logoGlow 3s infinite;
 }
-@keyframes logo{50%{text-shadow:0 0 80px var(--cyan)}}
-.center{text-align:center;letter-spacing:4px}
-.clocks{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:10px;
- font-family:'Share Tech Mono';
- font-size:16px;
+@keyframes logoGlow{
+ 50%{text-shadow:0 0 80px var(--cyan)}
 }
-.clock{
- border:1px solid var(--border);
- padding:6px;
- text-align:center;
- box-shadow:0 0 15px rgba(0,245,255,.5);
+.center{text-align:center;letter-spacing:.6vh}
+.user{
+ text-align:right;
+ font-size:2vh;
 }
 
-/* POWER */
+/* ===== POWER BAR ===== */
 .power{
- height:64px;
- display:flex;
- gap:14px;
- padding:0 36px;
- align-items:center;
- border-bottom:3px solid var(--border);
+ height:8vh;
+ display:grid;
+ grid-template-columns:repeat(6,1fr);
+ gap:1vw;
+ padding:1vh 3vw;
+ border-bottom:2px solid var(--cyan);
 }
 .power button{
- background:#050b22;
+ background:#020514;
  color:#fff;
- border:2px solid var(--border);
- padding:10px 18px;
- box-shadow:0 0 25px var(--cyan);
+ border:2px solid var(--cyan);
+ font-size:1.6vh;
+ padding:1vh;
+ box-shadow:0 0 20px var(--cyan);
 }
 .power .danger{
  border-color:var(--red);
- box-shadow:0 0 60px var(--red);
- animation:pulse 1.2s infinite;
+ box-shadow:0 0 50px var(--red);
+ animation:pulse 1s infinite;
 }
 @keyframes pulse{50%{box-shadow:0 0 120px var(--red)}}
 
-/* MAIN GRID */
+/* ===== MAIN GRID ===== */
 .main{
- height:calc(100% - 154px);
+ height:82vh;
  display:grid;
- grid-template-columns:520px 1fr 520px;
- grid-template-rows:1fr 1fr;
- gap:14px;
- padding:14px;
-}
-.panel{
- background:var(--panel);
- border:2px solid var(--border);
- padding:12px;
- box-shadow:0 0 35px rgba(0,245,255,.35);
+ grid-template-columns:28% 44% 28%;
+ grid-template-rows:50% 50%;
+ gap:1vh;
+ padding:1vh;
 }
 
-/* SYSTEM METRICS */
-.metric{
- font-family:'Share Tech Mono';
- font-size:18px;
- margin:6px 0;
-}
-
-/* RADAR */
-.radar-wrap{
+/* ===== RADAR ===== */
+.radarWrap{
  display:grid;
- grid-template-columns:1fr 1fr;
+ grid-template-columns:50% 50%;
  height:100%;
- gap:10px;
 }
 #radar{width:100%;height:100%}
-.ip-list{
+.ipList{
  font-family:'Share Tech Mono';
- font-size:14px;
+ font-size:1.4vh;
 }
-.ip-row{
+.ipRow{
  display:grid;
- grid-template-columns:150px 60px 90px;
+ grid-template-columns:55% 20% 25%;
  border-bottom:1px solid rgba(0,245,255,.3);
- padding:4px 0;
+ padding:.3vh 0;
 }
-.ip-row.crit{color:var(--red);animation:blink .6s infinite}
+.ipRow.crit{color:var(--red);animation:blink .6s infinite}
 @keyframes blink{50%{opacity:.3}}
 
-/* ALERT */
+/* ===== ALERT ===== */
 .alert{
  display:flex;
  flex-direction:column;
- align-items:center;
  justify-content:center;
- border:4px solid var(--red);
+ align-items:center;
+ border:3px solid var(--red);
  box-shadow:0 0 120px var(--red);
- animation:alert 1.3s infinite;
+ animation:alertPulse 1.2s infinite;
 }
-@keyframes alert{50%{transform:scale(1.02)}}
-.big-ip{font-family:'Share Tech Mono';font-size:72px}
-.big-meta{font-size:26px}
-.big-level{letter-spacing:6px}
+@keyframes alertPulse{50%{transform:scale(1.02)}}
+.bigIP{font-family:'Share Tech Mono';font-size:6vh}
 
-/* COMMAND */
+/* ===== METRIC ===== */
+.metric{
+ font-family:'Share Tech Mono';
+ font-size:1.6vh;
+ margin:.6vh 0;
+}
+
+/* ===== COMMAND ===== */
 .command{
  position:fixed;
- right:20px;
- bottom:20px;
- width:440px;
- height:300px;
- background:#00030a;
+ right:2vw;
+ bottom:2vh;
+ width:22vw;
+ height:28vh;
+ background:#000;
  border:3px solid var(--red);
- box-shadow:0 0 90px var(--red);
+ box-shadow:0 0 80px var(--red);
  display:flex;
  flex-direction:column;
 }
 .command h3{
- padding:8px;
+ padding:.6vh;
+ font-size:1.6vh;
  border-bottom:2px solid var(--red);
 }
 .log{
  flex:1;
- padding:8px;
+ padding:.6vh;
  font-family:'Share Tech Mono';
- font-size:14px;
+ font-size:1.3vh;
  overflow:auto;
 }
-.input input{
- width:100%;
+.command input{
  background:#000;
- color:#fff;
  border:none;
- padding:8px;
- font-family:'Share Tech Mono';
+ color:#fff;
+ padding:.6vh;
  outline:none;
+ font-family:'Share Tech Mono';
+ font-size:1.3vh;
 }
 </style>
 </head>
@@ -192,55 +201,56 @@ body::before{
 <div class="header">
  <div class="logo">OKX</div>
  <div class="center">ABSOLUTE GLOBAL COMMAND WALL</div>
- <div class="clocks">
-  <div class="clock" id="ny"></div>
-  <div class="clock" id="ld"></div>
-  <div class="clock" id="vn"></div>
-  <div class="clock" id="jp"></div>
-  <div class="clock" id="sg"></div>
+ <div class="user">
+  ROOT USER: <b style="color:#00f5ff">JOKER</b><br>
+  CLEARANCE: ABSOLUTE
  </div>
 </div>
 
 <div class="power">
  <button>OVERRIDE AI</button>
  <button>FREEZE MARKET</button>
+ <button>FORCE AUDIT</button>
  <button class="danger">GLOBAL LOCKDOWN</button>
+ <button class="danger">HALT TRADING</button>
+ <button class="danger">BLACKOUT MODE</button>
 </div>
 
 <div class="main">
 
- <div class="panel" id="metrics"></div>
+ <div class="panel">
+  <div class="metric">CPU LOAD: <span id="cpu"></span>%</div>
+  <div class="metric">MEMORY: <span id="mem"></span>%</div>
+  <div class="metric">NETWORK: <span id="net"></span>%</div>
+  <div class="metric">API ERROR: <span id="api"></span>%</div>
+ </div>
 
- <div class="panel radar-wrap">
+ <div class="panel radarWrap">
   <canvas id="radar"></canvas>
-  <div class="ip-list" id="ipList"></div>
+  <div class="ipList" id="ipList"></div>
  </div>
 
  <div class="panel alert">
-  <div class="big-ip" id="mainIP">---</div>
-  <div class="big-meta" id="mainMeta">---</div>
-  <div class="big-level" id="mainLevel">---</div>
+  <div class="bigIP" id="bigIP">---</div>
+  <div id="bigMeta"></div>
+  <div id="bigLvl"></div>
  </div>
 
  <div class="panel">
-  <div class="metric">MATCHING ENGINE: ONLINE</div>
-  <div class="metric">LIQUIDITY POOL: STABLE</div>
-  <div class="metric">ORDER FLOW: NORMAL</div>
-  <div class="metric">RISK ENGINE: ACTIVE</div>
-  <div class="metric">SETTLEMENT NODE: SYNCED</div>
+  <div class="metric">MATCH ENGINE: ONLINE</div>
+  <div class="metric">LIQUIDITY: STABLE</div>
+  <div class="metric">RISK CORE: ACTIVE</div>
  </div>
 
  <div class="panel">
   <div class="metric">ATTACKS / MIN: <span id="apm"></span></div>
-  <div class="metric">CRITICAL RATIO: <span id="crit"></span>%</div>
+  <div class="metric">CRITICAL RATIO: <span id="cr"></span>%</div>
   <div class="metric">COUNTRIES ACTIVE: <span id="cc"></span></div>
-  <div class="metric">IP BLOCKED TODAY: <span id="blk"></span></div>
  </div>
 
  <div class="panel">
-  <div class="metric">SHOW MODE: ACTIVE</div>
-  <div class="metric">RESOLUTION: 8K READY</div>
-  <div class="metric">DISPLAY SYNC: OK</div>
+  <div class="metric">DISPLAY MODE: ANDROID TV</div>
+  <div class="metric">RESOLUTION: 16:9 LOCKED</div>
  </div>
 
 </div>
@@ -248,37 +258,20 @@ body::before{
 <div class="command">
  <h3>SUPREME ROOT COMMAND</h3>
  <div class="log" id="log"></div>
- <div class="input"><input id="cmd" placeholder="ENTER ABSOLUTE COMMAND…"></div>
+ <input id="cmd" placeholder="ENTER ABSOLUTE COMMAND">
 </div>
 
 <script>
-/* CLOCKS */
-function clock(id,zone,label){
- document.getElementById(id).innerHTML=
- label+"<br>"+new Intl.DateTimeFormat('en-GB',{
-  timeZone:zone,
-  hour:'2-digit',minute:'2-digit',second:'2-digit'
- }).format(new Date());
-}
-setInterval(()=>{
- clock("ny","America/New_York","NEW YORK");
- clock("ld","Europe/London","LONDON");
- clock("vn","Asia/Ho_Chi_Minh","VIETNAM");
- clock("jp","Asia/Tokyo","TOKYO");
- clock("sg","Asia/Singapore","SINGAPORE");
-},1000);
-
 /* METRICS */
 setInterval(()=>{
- metrics.innerHTML="";
- ["CPU LOAD","MEMORY","NETWORK","API ERROR","ORDER FLOW"].forEach(m=>{
-  metrics.innerHTML+=`<div class="metric">${m}: ${(Math.random()*100).toFixed(1)}%</div>`;
- });
- apm.textContent=(Math.random()*300+50|0);
- crit.textContent=(Math.random()*40+10|0);
+ cpu.textContent=(Math.random()*60+20).toFixed(1);
+ mem.textContent=(Math.random()*50+30).toFixed(1);
+ net.textContent=(Math.random()*70+20).toFixed(1);
+ api.textContent=(Math.random()*5).toFixed(2);
+ apm.textContent=(Math.random()*300|0);
+ cr.textContent=(Math.random()*40|0);
  cc.textContent=(Math.random()*8+3|0);
- blk.textContent=(Math.random()*2000+500|0);
-},800);
+},1000);
 
 /* THREATS */
 const countries=["US","CN","RU","VN","JP","DE"];
@@ -292,40 +285,38 @@ setInterval(()=>{
   r:Math.random()*.45+.2
  };
  threats.push(t);
- if(threats.length>12)threats.shift();
-
+ if(threats.length>10)threats.shift();
  const sev=t.lvl>.8?"CRITICAL":t.lvl>.6?"HIGH":"MEDIUM";
- mainIP.textContent=t.ip;
- mainMeta.textContent=t.c;
- mainLevel.textContent=sev;
-
+ bigIP.textContent=t.ip;
+ bigMeta.textContent=t.c;
+ bigLvl.textContent=sev;
  const row=document.createElement("div");
- row.className="ip-row "+(sev==="CRITICAL"?"crit":"");
+ row.className="ipRow "+(sev==="CRITICAL"?"crit":"");
  row.innerHTML=`<span>${t.ip}</span><span>${t.c}</span><span>${sev}</span>`;
  ipList.prepend(row);
- if(ipList.children.length>14)ipList.lastChild.remove();
-},1000);
+ if(ipList.children.length>12)ipList.lastChild.remove();
+},1200);
 
 /* RADAR */
-const cv=document.getElementById("radar"),rc=cv.getContext("2d");
+const cv=radar,ctx=cv.getContext("2d");
 function resize(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight}
 resize();window.onresize=resize;
 let ang=0;
 (function draw(){
- rc.clearRect(0,0,cv.width,cv.height);
+ ctx.clearRect(0,0,cv.width,cv.height);
  const cx=cv.width/2,cy=cv.height/2,R=Math.min(cx,cy)*.85;
- rc.strokeStyle="rgba(0,245,255,.5)";
- for(let i=1;i<=4;i++){rc.beginPath();rc.arc(cx,cy,R*i/4,0,Math.PI*2);rc.stroke();}
+ ctx.strokeStyle="rgba(0,245,255,.5)";
+ for(let i=1;i<=4;i++){ctx.beginPath();ctx.arc(cx,cy,R*i/4,0,Math.PI*2);ctx.stroke();}
  threats.forEach(t=>{
   const x=cx+Math.cos(t.a)*R*t.r;
   const y=cy+Math.sin(t.a)*R*t.r;
-  rc.fillStyle=t.lvl>.8?"#ff2d55":t.lvl>.6?"#ffd000":"#00ff9c";
-  rc.beginPath();rc.arc(x,y,6+6*t.lvl,0,Math.PI*2);rc.fill();
+  ctx.fillStyle=t.lvl>.8?"#ff2d55":t.lvl>.6?"#ffd000":"#00ff9c";
+  ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fill();
  });
- rc.beginPath();
- rc.moveTo(cx,cy);
- rc.lineTo(cx+Math.cos(ang)*R,cy+Math.sin(ang)*R);
- rc.stroke();
+ ctx.beginPath();
+ ctx.moveTo(cx,cy);
+ ctx.lineTo(cx+Math.cos(ang)*R,cy+Math.sin(ang)*R);
+ ctx.stroke();
  ang+=.04;
  requestAnimationFrame(draw);
 })();
@@ -333,7 +324,7 @@ let ang=0;
 /* COMMAND */
 cmd.addEventListener("keydown",e=>{
  if(e.key==="Enter"&&cmd.value){
-  log.innerHTML+=`[ACCEPTED] ${cmd.value}<br>`;
+  log.innerHTML+=`[ROOT] ${cmd.value}<br>`;
   cmd.value="";
  }
 });
