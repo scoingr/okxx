@@ -1,350 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>OKX ABSOLUTE COMMAND WALL</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>I'M JOKER</title>
 
 <style>
 html,body{
- margin:0;
- width:100%;
- height:100%;
- background:#000;
- overflow:hidden;
+  margin:0;height:100%;background:#000;color:#00ffcc;
+  font-family:Consolas,monospace;overflow:hidden;cursor:none
 }
+#app,#red{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center
+}
+#red{
+  display:none;
+  background:#7a0000;
+  color:#fff;
+  z-index:999;
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{50%{opacity:.7}}
 
-/* ===== SCALE WRAPPER ===== */
-#scale-root{
- position:absolute;
- top:50%;
- left:50%;
- width:1920px;
- height:1080px;
- transform:translate(-50%,-50%);
- transform-origin:center;
- background:#01030a;
- font-family:'Orbitron',sans-serif;
- color:#eaffff;
- overflow:hidden;
-}
-
-/* ===== COLORS ===== */
-:root{
- --cyan:#00f5ff;
- --red:#ff2d55;
- --amber:#ffd000;
- --green:#00ff9c;
- --panel:#050a22;
-}
-
-/* GRID */
-#scale-root::before{
- content:"";
- position:absolute;
- inset:0;
- background:
-  linear-gradient(rgba(0,245,255,.04) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(0,245,255,.04) 1px,transparent 1px);
- background-size:96px 96px;
- animation:grid 80s linear infinite;
- pointer-events:none;
-}
-@keyframes grid{
- to{background-position:960px 960px}
-}
-
-/* ===== HEADER ===== */
-.header{
- height:96px;
- display:grid;
- grid-template-columns:320px 1fr 420px;
- align-items:center;
- padding:0 32px;
- border-bottom:3px solid var(--cyan);
-}
-.logo{
- font-size:64px;
- letter-spacing:12px;
- color:var(--cyan);
- text-shadow:0 0 60px var(--cyan);
-}
-.center{
- text-align:center;
- letter-spacing:4px;
-}
-.user{
- text-align:right;
- font-size:18px;
-}
-
-/* ===== POWER ===== */
-.power{
- height:72px;
- display:grid;
- grid-template-columns:repeat(6,1fr);
- gap:16px;
- padding:12px 32px;
- border-bottom:3px solid var(--cyan);
-}
-.power button{
- background:#020514;
- color:#fff;
- border:2px solid var(--cyan);
- font-size:16px;
- padding:10px;
- box-shadow:0 0 20px var(--cyan);
-}
-.power .danger{
- border-color:var(--red);
- box-shadow:0 0 60px var(--red);
-}
-
-/* ===== MAIN ===== */
-.main{
- height:calc(1080px - 168px);
- display:grid;
- grid-template-columns:520px 880px 520px;
- grid-template-rows:1fr 1fr;
- gap:16px;
- padding:16px;
-}
-
-/* PANEL */
 .panel{
- position:relative;
- background:var(--panel);
- padding:12px;
- border:2px solid var(--cyan);
- box-shadow:0 0 40px rgba(0,245,255,.35);
+  width:94%;max-width:860px;
+  border:1px solid #00ffcc55;
+  padding:16px;
+  box-shadow:0 0 80px #00ffcc22 inset;
+  background:#000
 }
-
-/* METRIC */
-.metric{
- font-family:'Share Tech Mono';
- font-size:18px;
- margin:6px 0;
+h1{margin:0 0 6px 0;letter-spacing:.3em}
+.small{font-size:12px;opacity:.6}
+.row{
+  display:grid;grid-template-columns:1fr;gap:14px
 }
-
-/* RADAR */
-.radarWrap{
- display:grid;
- grid-template-columns:440px 1fr;
- gap:12px;
- height:100%;
+@media(min-width:720px){
+  .row{grid-template-columns:1.2fr .8fr}
 }
 #radar{
- width:440px;
- height:440px;
+  width:100%;
+  height:260px;
+  background:#010;
+  border:1px solid #00ffcc44;
 }
-.ipList{
- font-family:'Share Tech Mono';
- font-size:15px;
+#log{
+  height:120px;overflow:auto;
+  background:#010;border:1px solid #00ffcc33;
+  padding:6px;font-size:12px
 }
-.ipRow{
- display:grid;
- grid-template-columns:200px 80px 120px;
- border-bottom:1px solid rgba(0,245,255,.3);
- padding:4px 0;
-}
-.ipRow.crit{color:var(--red)}
-
-/* ALERT */
-.alert{
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- border:4px solid var(--red);
- box-shadow:0 0 120px var(--red);
-}
-.bigIP{
- font-family:'Share Tech Mono';
- font-size:72px;
-}
-
-/* COMMAND */
-.command{
- position:absolute;
- right:24px;
- bottom:24px;
- width:420px;
- height:300px;
- background:#000;
- border:3px solid var(--red);
- box-shadow:0 0 80px var(--red);
- display:flex;
- flex-direction:column;
-}
-.command h3{
- margin:0;
- padding:8px;
- font-size:18px;
- border-bottom:2px solid var(--red);
-}
-.log{
- flex:1;
- padding:8px;
- font-family:'Share Tech Mono';
- font-size:14px;
- overflow:hidden;
-}
-.command input{
- border:none;
- background:#000;
- color:#fff;
- padding:8px;
- font-family:'Share Tech Mono';
- outline:none;
-}
+.bar{margin-top:8px;height:6px;background:#002}
+.bar>div{height:100%;width:0;background:#00ffcc}
+.blink{animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.4}}
 </style>
 </head>
 
 <body>
 
-<div id="scale-root">
-
- <div class="header">
-  <div class="logo">OKX</div>
-  <div class="center">ABSOLUTE COMMAND WALL</div>
-  <div class="user">
-   ROOT USER: <b style="color:#00f5ff">JOKER</b><br>
-   ACCESS LEVEL: ABSOLUTE
-  </div>
- </div>
-
- <div class="power">
-  <button>OVERRIDE AI</button>
-  <button>FREEZE MARKET</button>
-  <button>FORCE AUDIT</button>
-  <button class="danger">GLOBAL LOCKDOWN</button>
-  <button class="danger">HALT TRADING</button>
-  <button class="danger">BLACKOUT</button>
- </div>
-
- <div class="main">
-
+<div id="app">
   <div class="panel">
-   <div class="metric">CPU LOAD: <span id="cpu"></span>%</div>
-   <div class="metric">MEMORY: <span id="mem"></span>%</div>
-   <div class="metric">NETWORK: <span id="net"></span>%</div>
-   <div class="metric">API ERROR: <span id="api"></span>%</div>
+    <h1>I'M JOKER</h1>
+    <div class="small blink">Retrieving user data…</div>
+
+    <div class="row">
+      <div>
+        <div class="small">IP: <b id="ip">scanning…</b></div>
+        <div class="small">Device: <b id="dev"></b></div>
+        <div class="bar"><div id="prog"></div></div>
+        <div id="log"></div>
+      </div>
+      <canvas id="radar"></canvas>
+    </div>
+
+    <div class="small">SYSTEM LOCKED</div>
   </div>
+</div>
 
-  <div class="panel radarWrap">
-   <canvas id="radar"></canvas>
-   <div class="ipList" id="ipList"></div>
+<div id="red">
+  <div style="text-align:center">
+    <h1>⚠ CRITICAL DANGER ⚠</h1>
+    <p class="blink">SYSTEM LOCKER</p>
+    <p>I'M JOKER — Retrieving user data</p>
   </div>
-
-  <div class="panel alert">
-   <div class="bigIP" id="bigIP">---</div>
-   <div id="bigMeta"></div>
-   <div id="bigLvl"></div>
-  </div>
-
-  <div class="panel">
-   <div class="metric">MATCH ENGINE: ONLINE</div>
-   <div class="metric">LIQUIDITY: STABLE</div>
-   <div class="metric">RISK CORE: ACTIVE</div>
-  </div>
-
-  <div class="panel">
-   <div class="metric">ATTACKS / MIN: <span id="apm"></span></div>
-   <div class="metric">CRITICAL RATIO: <span id="cr"></span>%</div>
-   <div class="metric">COUNTRIES ACTIVE: <span id="cc"></span></div>
-  </div>
-
-  <div class="panel">
-   <div class="metric">DISPLAY: ANDROID TV SAFE</div>
-   <div class="metric">ASPECT: 16:9 LOCKED</div>
-  </div>
-
- </div>
-
- <div class="command">
-  <h3>SUPREME ROOT COMMAND</h3>
-  <div class="log" id="log"></div>
-  <input id="cmd" placeholder="ENTER ABSOLUTE COMMAND">
- </div>
-
 </div>
 
 <script>
-/* SCALE TO SCREEN */
-function scale(){
- const s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
- document.getElementById("scale-root").style.transform=
-  `translate(-50%,-50%) scale(${s})`;
-}
-scale();
-window.onresize=scale;
+/* ========= helpers ========= */
+const G=id=>document.getElementById(id);
+const log=t=>{G("log").innerHTML+=t+"<br>";G("log").scrollTop=9999};
 
-/* METRICS */
-setInterval(()=>{
- cpu.textContent=(Math.random()*60+20).toFixed(1);
- mem.textContent=(Math.random()*50+30).toFixed(1);
- net.textContent=(Math.random()*70+20).toFixed(1);
- api.textContent=(Math.random()*5).toFixed(2);
- apm.textContent=(Math.random()*300|0);
- cr.textContent=(Math.random()*40|0);
- cc.textContent=(Math.random()*8+3|0);
+/* ========= device ========= */
+const ua=navigator.userAgent;
+G("dev").textContent=/Mobi/.test(ua)?"Mobile":"Desktop";
+
+/* ========= IP (hiển thị) ========= */
+fetch("https://ipapi.co/ip/")
+.then(r=>r.text())
+.then(ip=>G("ip").textContent=ip)
+.catch(()=>G("ip").textContent="unknown");
+
+/* ========= fake scan 5s ========= */
+let p=0;
+const bar=G("prog");
+const scanTimer=setInterval(()=>{
+  p+=20;
+  bar.style.width=p+"%";
+  log("Scanning sector "+(p/20));
+  if(p>=100) clearInterval(scanTimer);
 },1000);
 
-/* THREATS */
-const countries=["US","CN","RU","VN","JP","DE"];
-let threats=[];
-setInterval(()=>{
- const t={
-  ip:`${Math.random()*255|0}.${Math.random()*255|0}.${Math.random()*255|0}.${Math.random()*255|0}`,
-  c:countries[Math.random()*countries.length|0],
-  lvl:Math.random(),
-  a:Math.random()*Math.PI*2,
-  r:Math.random()*.45+.2
- };
- threats.push(t);
- if(threats.length>10)threats.shift();
- const sev=t.lvl>.8?"CRITICAL":t.lvl>.6?"HIGH":"MEDIUM";
- bigIP.textContent=t.ip;
- bigMeta.textContent=t.c;
- bigLvl.textContent=sev;
- const row=document.createElement("div");
- row.className="ipRow "+(sev==="CRITICAL"?"crit":"");
- row.innerHTML=`<span>${t.ip}</span><span>${t.c}</span><span>${sev}</span>`;
- ipList.prepend(row);
- if(ipList.children.length>12)ipList.lastChild.remove();
-},1200);
+/* ========= radar (CHẮC CHẮN CHẠY) ========= */
+const canvas=G("radar");
+const ctx=canvas.getContext("2d");
 
-/* RADAR */
-const cv=radar,ctx=cv.getContext("2d");
-cv.width=cv.height=440;
-let ang=0;
-(function draw(){
- ctx.clearRect(0,0,440,440);
- const cx=220,cy=220,R=190;
- ctx.strokeStyle="rgba(0,245,255,.5)";
- for(let i=1;i<=4;i++){
+function resizeRadar(){
+  const dpr=window.devicePixelRatio||1;
+  const r=canvas.getBoundingClientRect();
+  canvas.width=r.width*dpr;
+  canvas.height=r.height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener("resize",resizeRadar);
+resizeRadar();
+
+let angle=0;
+const blips=Array.from({length:10},()=>({r:Math.random(),a:Math.random()*6.28}));
+
+function radarLoop(){
+  const w=canvas.clientWidth;
+  const h=canvas.clientHeight;
+  const cx=w/2, cy=h/2;
+  const R=Math.min(cx,cy)-6;
+
+  ctx.clearRect(0,0,w,h);
+
+  ctx.strokeStyle="#00ffcc33";
+  for(let i=1;i<=4;i++){
+    ctx.beginPath();
+    ctx.arc(cx,cy,R*i/4,0,Math.PI*2);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle="#00ffcc";
   ctx.beginPath();
-  ctx.arc(cx,cy,R*i/4,0,Math.PI*2);
+  ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+R*Math.cos(angle),cy+R*Math.sin(angle));
   ctx.stroke();
- }
- threats.forEach(t=>{
-  const x=cx+Math.cos(t.a)*R*t.r;
-  const y=cy+Math.sin(t.a)*R*t.r;
-  ctx.fillStyle=t.lvl>.8?"#ff2d55":t.lvl>.6?"#ffd000":"#00ff9c";
-  ctx.beginPath();
-  ctx.arc(x,y,6,0,Math.PI*2);
-  ctx.fill();
- });
- ctx.beginPath();
- ctx.moveTo(cx,cy);
- ctx.lineTo(cx+Math.cos(ang)*R,cy+Math.sin(ang)*R);
- ctx.stroke();
- ang+=.04;
- requestAnimationFrame(draw);
-})();
-</script>
 
+  blips.forEach(b=>{
+    const x=cx+R*b.r*Math.cos(b.a);
+    const y=cy+R*b.r*Math.sin(b.a);
+    ctx.fillStyle="rgba(0,255,204,.8)";
+    ctx.fillRect(x,y,2,2);
+  });
+
+  angle+=0.04;
+  requestAnimationFrame(radarLoop);
+}
+radarLoop();
+
+/* ========= RED MODE sau 8s ========= */
+setTimeout(()=>{
+  G("red").style.display="flex";
+},8000);
+
+/* ========= khóa input ========= */
+["click","contextmenu","keydown","touchstart"].forEach(e=>{
+  document.addEventListener(e,ev=>{
+    ev.preventDefault();ev.stopPropagation();
+  },{passive:false,capture:true});
+});
+</script>
 </body>
 </html>
