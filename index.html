@@ -1,176 +1,368 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>I'M JOKER</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Valentine Project X | Tuấn & Vân Anh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff0055;
+            --neon-blue: #00f2ff;
+            --neon-purple: #bd00ff;
+            --bg-dark: #020204;
+        }
 
-<style>
-html,body{
-  margin:0;height:100%;background:#000;color:#00ffcc;
-  font-family:Consolas,monospace;overflow:hidden;cursor:none
-}
-#app,#red{
-  position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center
-}
-#red{
-  display:none;
-  background:#7a0000;
-  color:#fff;
-  z-index:999;
-  animation:pulse 1s infinite;
-}
-@keyframes pulse{50%{opacity:.7}}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.panel{
-  width:94%;max-width:860px;
-  border:1px solid #00ffcc55;
-  padding:16px;
-  box-shadow:0 0 80px #00ffcc22 inset;
-  background:#000
-}
-h1{margin:0 0 6px 0;letter-spacing:.3em}
-.small{font-size:12px;opacity:.6}
-.row{
-  display:grid;grid-template-columns:1fr;gap:14px
-}
-@media(min-width:720px){
-  .row{grid-template-columns:1.2fr .8fr}
-}
-#radar{
-  width:100%;
-  height:260px;
-  background:#010;
-  border:1px solid #00ffcc44;
-}
-#log{
-  height:120px;overflow:auto;
-  background:#010;border:1px solid #00ffcc33;
-  padding:6px;font-size:12px
-}
-.bar{margin-top:8px;height:6px;background:#002}
-.bar>div{height:100%;width:0;background:#00ffcc}
-.blink{animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.4}}
-</style>
+        body {
+            background-color: var(--bg-dark);
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            height: 100vh; width: 100vw;
+            color: white;
+            position: relative;
+            /* Hiệu ứng nhiễu hạt nhẹ toàn màn hình */
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDIwMjA0Ij48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMzMzMiPjwvcmVjdD4KPC9zdmc+');
+        }
+
+        /* === LỚP NỀN CÔNG NGHỆ (CYBER GRID) === */
+        .cyber-grid-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            perspective: 1000px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        .cyber-grid {
+            position: absolute;
+            width: 200%; height: 200%;
+            left: -50%; top: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: rotateX(60deg) translateZ(-100px);
+            animation: gridMove 10s linear infinite;
+        }
+
+        canvas {
+            position: absolute; top: 0; left: 0; z-index: 1;
+            mix-blend-mode: screen; /* Làm cho pháo hoa sáng rực trên nền tối */
+        }
+
+        /* === UI CONTAINER CHÍNH === */
+        .ui-container {
+            position: relative; z-index: 10;
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center;
+            padding-top: 5vh;
+            /* Hiệu ứng bóng mờ xung quanh viền màn hình */
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+        }
+
+        /* 1. HEADER DATA */
+        .header-data {
+            text-align: center; margin-bottom: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            padding: 5px 15px;
+            background: rgba(0,0,0,0.5);
+        }
+        .system-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem; color: var(--neon-blue);
+            letter-spacing: 2px;
+        }
+        .main-title {
+             font-size: 2.5rem; font-weight: 900;
+             text-transform: uppercase;
+             background: linear-gradient(to right, var(--neon-pink), var(--neon-blue));
+             -webkit-background-clip: text;
+             -webkit-text-fill-color: transparent;
+             animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        /* 2. PLASMA REACTOR CORE (Trái tim trung tâm) */
+        .reactor-container {
+            position: relative; width: 200px; height: 200px;
+            display: flex; justify-content: center; align-items: center;
+            margin: 20px 0;
+        }
+        /* Vòng xoay năng lượng */
+        .plasma-ring {
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 3px dotted var(--neon-blue);
+            animation: spinRight 10s linear infinite;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+        .plasma-ring.inner {
+            width: 70%; height: 70%;
+            border: 3px dashed var(--neon-pink);
+            animation: spinLeft 5s linear infinite;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+        /* Trái tim lõi */
+        .core-heart {
+            font-size: 90px; color: white;
+            /* Hiệu ứng phát sáng điện tích mạnh */
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                0 0 80px var(--neon-purple);
+            animation: coreUnstable 0.5s infinite alternate;
+        }
+
+        /* 3. NAMES DISPLAY */
+        .names-display {
+            margin-bottom: auto; /* Đẩy phần này lên trên */
+        }
+        .cyber-names {
+            font-size: 2.2rem; font-weight: 700;
+            letter-spacing: 3px; text-align: center;
+            text-shadow: 3px 3px 0px rgba(255, 0, 85, 0.5), -3px -3px 0px rgba(0, 242, 255, 0.5);
+        }
+
+        /* === 4. HOLOGRAPHIC CHAT BOX (Phần quan trọng nhất) === */
+        .holo-deck {
+            position: absolute; bottom: 30px; width: 95%;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* Bệ phóng Hologram */
+        .holo-emitter-base {
+            width: 80%; height: 10px;
+            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            filter: blur(5px); margin-bottom: 5px;
+            animation: emitterPulse 2s infinite;
+        }
+
+        .holo-chat-box {
+            position: relative;
+            width: 100%; min-height: 150px;
+            background: rgba(2, 10, 25, 0.7); /* Màu nền kính tối */
+            border: 2px solid var(--neon-blue);
+            /* Hiệu ứng viền sáng không ổn định */
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4), inset 0 0 30px rgba(0, 242, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            /* Tạo hình dáng vát góc công nghệ */
+            clip-path: polygon(5% 0, 95% 0, 100% 20%, 100% 80%, 95% 100%, 5% 100%, 0% 80%, 0% 20%);
+        }
+
+        /* Lớp phủ đường quét (Scanlines overlay) */
+        .holo-chat-box::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 242, 255, 0.1) 0px,
+                rgba(0, 242, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 4px
+            );
+            pointer-events: none;
+            animation: scanlineScroll 15s linear infinite;
+        }
+
+        /* Các góc HUD (Heads Up Display corners) */
+        .hud-corner {
+            position: absolute; width: 20px; height: 20px;
+            border-color: var(--neon-pink); border-style: solid;
+        }
+        .tl { top: 5px; left: 5px; border-width: 2px 0 0 2px; }
+        .tr { top: 5px; right: 5px; border-width: 2px 2px 0 0; }
+        .bl { bottom: 5px; left: 5px; border-width: 0 0 2px 2px; }
+        .br { bottom: 5px; right: 5px; border-width: 0 2px 2px 0; }
+
+        /* --- CHỮ THOẠI LED PRO --- */
+        .typing-text {
+            font-family: 'Share Tech Mono', monospace; /* Font kiểu dữ liệu điện tử */
+            font-size: 1.8rem; /* Chữ to rõ */
+            line-height: 1.4;
+            color: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            /* Hiệu ứng LED cực mạnh */
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px var(--neon-blue),
+                0 0 25px var(--neon-blue),
+                0 0 40px var(--neon-purple);
+            position: relative; z-index: 2;
+        }
+        
+        .cursor {
+            display: inline-block; width: 10px; height: 1.5rem;
+            background-color: var(--neon-pink);
+            margin-left: 8px; vertical-align: middle;
+            animation: blink 0.8s steps(2, start) infinite;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* --- ANIMATIONS KEYFRAMES --- */
+        @keyframes gridMove { from { transform: rotateX(60deg) translateZ(-100px) translateY(0); } to { transform: rotateX(60deg) translateZ(-100px) translateY(50px); } }
+        @keyframes spinRight { 100% { transform: rotate(360deg); } }
+        @keyframes spinLeft { 100% { transform: rotate(-360deg); } }
+        @keyframes titlePulse { 50% { filter: drop-shadow(0 0 15px var(--neon-pink)); } }
+        @keyframes coreUnstable { 
+            0% { opacity: 1; transform: scale(1); filter: hue-rotate(0deg); } 
+            100% { opacity: 0.8; transform: scale(1.05); filter: hue-rotate(20deg); } 
+        }
+        @keyframes emitterPulse { 0%, 100% { opacity: 0.5; scale: 1; } 50% { opacity: 1; scale: 1.1; } }
+        @keyframes scanlineScroll { from { background-position: 0 0; } to { background-position: 0 100%; } }
+        @keyframes blink { to { visibility: hidden; } }
+
+    </style>
 </head>
-
 <body>
-
-<div id="app">
-  <div class="panel">
-    <h1>I'M JOKER</h1>
-    <div class="small blink">Retrieving user data…</div>
-
-    <div class="row">
-      <div>
-        <div class="small">IP: <b id="ip">scanning…</b></div>
-        <div class="small">Device: <b id="dev"></b></div>
-        <div class="bar"><div id="prog"></div></div>
-        <div id="log"></div>
-      </div>
-      <canvas id="radar"></canvas>
+    <div class="cyber-grid-container">
+        <div class="cyber-grid"></div>
     </div>
 
-    <div class="small">SYSTEM LOCKED</div>
-  </div>
-</div>
+    <canvas id="fireworksCanvas"></canvas>
 
-<div id="red">
-  <div style="text-align:center">
-    <h1>⚠ CRITICAL DANGER ⚠</h1>
-    <p class="blink">SYSTEM LOCKER</p>
-    <p>I'M JOKER — Retrieving user data</p>
-  </div>
-</div>
+    <div class="ui-container">
+        <div class="header-data">
+            <div class="system-status">>> SYSTEM: SECURE LINK ESTABLISHED <<</div>
+            <div class="main-title">VALENTINE 14/02</div>
+        </div>
 
-<script>
-/* ========= helpers ========= */
-const G=id=>document.getElementById(id);
-const log=t=>{G("log").innerHTML+=t+"<br>";G("log").scrollTop=9999};
+        <div class="reactor-container">
+            <div class="plasma-ring"></div>
+            <div class="plasma-ring inner"></div>
+            <div class="core-heart">♥</div>
+        </div>
 
-/* ========= device ========= */
-const ua=navigator.userAgent;
-G("dev").textContent=/Mobi/.test(ua)?"Mobile":"Desktop";
+        <div class="names-display">
+            <div class="cyber-names">TUẤN X VÂN ANH</div>
+        </div>
 
-/* ========= IP (hiển thị) ========= */
-fetch("https://ipapi.co/ip/")
-.then(r=>r.text())
-.then(ip=>G("ip").textContent=ip)
-.catch(()=>G("ip").textContent="unknown");
+        <div class="holo-deck">
+            <div class="holo-emitter-base"></div>
+            <div class="holo-chat-box">
+                <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+                <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+                
+                <div>
+                    <span id="typewriter" class="typing-text"></span><span class="cursor"></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-/* ========= fake scan 5s ========= */
-let p=0;
-const bar=G("prog");
-const scanTimer=setInterval(()=>{
-  p+=20;
-  bar.style.width=p+"%";
-  log("Scanning sector "+(p/20));
-  if(p>=100) clearInterval(scanTimer);
-},1000);
+    <script>
+        // === PHẦN 1: PHÁO HOA (Giữ nguyên độ mượt, tăng độ sáng) ===
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
 
-/* ========= radar (CHẮC CHẮN CHẠY) ========= */
-const canvas=G("radar");
-const ctx=canvas.getContext("2d");
+        class Firework {
+            constructor() {
+                this.x = Math.random() * w; this.y = h;
+                this.targetY = Math.random() * (h * 0.5);
+                this.speed = Math.random() * 4 + 8; // Nhanh hơn chút
+                this.color = `hsl(${Math.random()*60 + 300}, 100%, 70%)`; // Chỉ màu hồng/tím/xanh
+                this.exploded = false;
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y <= this.targetY && !this.exploded) { this.exploded = true; createParticles(this.x, this.y, this.color); }
+            }
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath(); ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    // Hiệu ứng tên lửa bay lên
+                    ctx.shadowBlur = 20; ctx.shadowColor = this.color;
+                    ctx.fill(); ctx.shadowBlur = 0;
+                }
+            }
+        }
 
-function resizeRadar(){
-  const dpr=window.devicePixelRatio||1;
-  const r=canvas.getBoundingClientRect();
-  canvas.width=r.width*dpr;
-  canvas.height=r.height*dpr;
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-}
-window.addEventListener("resize",resizeRadar);
-resizeRadar();
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.size = Math.random() * 3 + 1; this.alpha = 1;
+                const a = Math.random() * Math.PI * 2; const r = Math.random() * 4 + 2;
+                // Công thức tim
+                this.vx = (16 * Math.pow(Math.sin(a), 3)) * 0.1 * r;
+                this.vy = (-(13 * Math.cos(a) - 5 * Math.cos(2*a) - 2 * Math.cos(3*a) - Math.cos(4*a))) * 0.1 * r;
+                this.gravity = 0.08; this.friction = 0.95;
+            }
+            update() {
+                this.vx *= this.friction; this.vy *= this.friction; this.vy += this.gravity;
+                this.x += this.vx; this.y += this.vy; this.alpha -= 0.02;
+            }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                // Hạt nổ siêu sáng (Super Bloom)
+                ctx.shadowBlur = 25; ctx.shadowColor = this.color;
+                ctx.fill(); ctx.restore();
+            }
+        }
 
-let angle=0;
-const blips=Array.from({length:10},()=>({r:Math.random(),a:Math.random()*6.28}));
+        let fireworks = [], particles = [];
+        function createParticles(x, y, color) {
+            for (let i = 0; i < 100; i++) particles.push(new Particle(x, y, color));
+        }
+        function loop() {
+            ctx.fillStyle = 'rgba(2, 2, 4, 0.25)'; // Xóa nền chậm để tạo trail dài hơn
+            ctx.fillRect(0, 0, w, h);
+            if (Math.random() < 0.03) fireworks.push(new Firework());
+            fireworks.forEach((f, i) => { f.update(); f.draw(); if (f.exploded) fireworks.splice(i, 1); });
+            particles.forEach((p, i) => { p.update(); p.draw(); if (p.alpha <= 0) particles.splice(i, 1); });
+            requestAnimationFrame(loop);
+        }
+        loop();
 
-function radarLoop(){
-  const w=canvas.clientWidth;
-  const h=canvas.clientHeight;
-  const cx=w/2, cy=h/2;
-  const R=Math.min(cx,cy)-6;
+        // === PHẦN 2: TYPEWRITER NÂNG CẤP (Lời thoại) ===
+        const messages = [
+            "INITIALIZING ROMANCE PROTOCOL v2.6...",
+            ">> TARGET ACQUIRED: VÂN ANH <<",
+            "Anh biết anh chưa lãnh mạn ...",
+            "...Cũng chưa thực sự chiều em.",
+            "Chưa cho em được cảm giác hạnh phúc...",
+            "...Nhưng anh sẽ cố gắng từ bây giờ .",
+            "...Thay đổi chính bản thân mình .",
+            "...Để em được thấy điều khiến em hạnh phúc nhất .",
+            "MY LOVE FOR YOU IS INFINITE LOOP. 💻❤️"
+        ];
 
-  ctx.clearRect(0,0,w,h);
+        const textElement = document.getElementById('typewriter');
+        let msgIndex = 0; let charIndex = 0; let isDeleting = false;
+        
+        function type() {
+            const currentMsg = messages[msgIndex];
+            let typeSpeed = 80; // Tốc độ gõ mặc định
 
-  ctx.strokeStyle="#00ffcc33";
-  for(let i=1;i<=4;i++){
-    ctx.beginPath();
-    ctx.arc(cx,cy,R*i/4,0,Math.PI*2);
-    ctx.stroke();
-  }
+            if (isDeleting) {
+                textElement.innerText = currentMsg.substring(0, charIndex - 1);
+                charIndex--; typeSpeed = 40; // Xóa nhanh
+            } else {
+                textElement.innerText = currentMsg.substring(0, charIndex + 1);
+                charIndex++;
+                 // Thêm hiệu ứng âm thanh gõ lách tách ở đây nếu muốn
+            }
 
-  ctx.strokeStyle="#00ffcc";
-  ctx.beginPath();
-  ctx.moveTo(cx,cy);
-  ctx.lineTo(cx+R*Math.cos(angle),cy+R*Math.sin(angle));
-  ctx.stroke();
-
-  blips.forEach(b=>{
-    const x=cx+R*b.r*Math.cos(b.a);
-    const y=cy+R*b.r*Math.sin(b.a);
-    ctx.fillStyle="rgba(0,255,204,.8)";
-    ctx.fillRect(x,y,2,2);
-  });
-
-  angle+=0.04;
-  requestAnimationFrame(radarLoop);
-}
-radarLoop();
-
-/* ========= RED MODE sau 8s ========= */
-setTimeout(()=>{
-  G("red").style.display="flex";
-},8000);
-
-/* ========= khóa input ========= */
-["click","contextmenu","keydown","touchstart"].forEach(e=>{
-  document.addEventListener(e,ev=>{
-    ev.preventDefault();ev.stopPropagation();
-  },{passive:false,capture:true});
-});
-</script>
+            if (!isDeleting && charIndex === currentMsg.length) {
+                isDeleting = true; typeSpeed = 2500; // Dừng lâu hơn để đọc
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                msgIndex = (msgIndex + 1) % messages.length;
+                typeSpeed = 500;
+            }
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener('DOMContentLoaded', type);
+    </script>
 </body>
 </html>
